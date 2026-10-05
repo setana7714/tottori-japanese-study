@@ -3,214 +3,554 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#f6f7fb">
 <title>鳥取へ — 実践日本語</title>
 <style>
-:root{--bg:#f7f8fb;--card:#fff;--ink:#263247;--muted:#70798a;--line:#e3e7ef;--accent:#5476a6;--soft:#edf3fb}
+:root{
+  --bg:#f6f7fb;--card:#fff;--ink:#202a3d;--muted:#6d7687;
+  --line:#e2e6ee;--accent:#397bdc;--soft:#f7f4ef;--warm:#fff8ec;
+}
 *{box-sizing:border-box}
-body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Hiragino Sans","Yu Gothic",sans-serif;background:var(--bg);color:var(--ink);line-height:1.65}
-header{position:sticky;top:0;z-index:5;background:rgba(247,248,251,.96);border-bottom:1px solid var(--line);padding:16px}
-h1{font-size:23px;margin:0}.sub{font-size:13px;color:var(--muted)}
-main{max-width:760px;margin:auto;padding:14px 14px 90px}
-.toolbar{display:flex;gap:8px;overflow:auto;padding:10px 0}
-button{cursor:pointer;touch-action:manipulation}
-.toolbar button{white-space:nowrap;border:1px solid var(--line);background:white;border-radius:999px;padding:10px 14px;font-size:14px}
-.toolbar button.active{background:var(--accent);color:white}
-.card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:17px;margin:12px 0;box-shadow:0 3px 14px rgba(48,65,91,.06)}
-.tag{font-size:12px;color:var(--accent);font-weight:700}
-.term{font-size:22px;font-weight:650}
-.meaning{color:#555;font-size:14px}
-.example{margin-top:8px;font-size:17px;line-height:2.25;background:#faf9f6;padding:11px 12px;border-radius:12px}
-.item{padding:13px 0;border-top:1px dashed var(--line)}
-.item:first-of-type{border-top:0}
-.actions button{border:1px solid var(--line);background:#fff;border-radius:10px;padding:7px 10px}
-.star.on{background:#fff5cc}
-.hidden{display:none!important}
-.today{background:linear-gradient(135deg,#fff,#edf4ef)}
-.note{font-size:13px;color:var(--muted)}
-ruby rt{font-size:.55em;color:#555}
-.no-ruby rt{display:none}
-.bottom{position:fixed;bottom:0;left:0;right:0;background:white;border-top:1px solid var(--line);display:flex;justify-content:space-around;padding:7px 2px calc(7px + env(safe-area-inset-bottom));z-index:6}
-.bottom button{border:0;background:none;font-size:12px;padding:6px;color:#445}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:-apple-system,BlinkMacSystemFont,"Noto Sans KR","Noto Sans JP",sans-serif;
+}
+header{
+  background:rgba(246,247,251,.96);padding:22px 20px 15px;
+  border-bottom:1px solid var(--line);
+}
+h1{font-size:25px;margin:0 0 7px}
+.subtitle{color:var(--muted);font-size:14px;line-height:1.6}
+main{max-width:720px;margin:auto;padding:16px 16px 110px}
+.weekTabs,.dayTabs{
+  display:flex;gap:8px;overflow:auto;padding:4px 0 12px;
+}
+button{
+  font:inherit;border:1px solid var(--line);background:white;color:var(--ink);
+  border-radius:18px;padding:10px 14px;cursor:pointer;
+}
+button.active{background:var(--ink);color:white;border-color:var(--ink)}
+.progress{font-size:13px;color:var(--muted);margin:5px 2px 12px}
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:25px;
+  padding:24px 20px;box-shadow:0 2px 8px rgba(30,45,70,.04);
+}
+.category{font-size:13px;color:var(--accent);font-weight:700;margin-bottom:18px}
+.word{
+  font-size:31px;font-weight:800;line-height:1.55;margin-bottom:4px;
+}
+.word rt{font-size:12px;font-weight:500}
+.meaning{font-size:17px;color:#596171;margin-bottom:25px}
+.label{font-size:12px;font-weight:700;color:#777;margin-bottom:9px}
+.example{
+  background:var(--soft);border-radius:18px;padding:22px 17px;
+  font-size:22px;font-weight:750;line-height:2.15;color:#111827;
+}
+.example ruby{ruby-position:over}
+.example rt{
+  font-size:10px;font-weight:600;color:#555;letter-spacing:0;
+}
+.translation{
+  margin-top:14px;padding:0 4px;font-size:15px;color:#606979;line-height:1.65;
+}
+.controls{
+  display:grid;grid-template-columns:1fr auto 1fr;gap:9px;margin-top:18px;
+}
+.controls button{border-radius:14px;padding:13px 8px}
+#prev{text-align:left}#next{text-align:right}
+.star{color:var(--accent)}
+.jump{
+  margin-top:20px;background:white;border:1px solid var(--line);
+  padding:16px;border-radius:18px;
+}
+.jumpTitle{font-size:13px;font-weight:700;margin-bottom:10px}
+.jump select{
+  width:100%;padding:11px;border:1px solid var(--line);
+  border-radius:12px;background:white;font-size:15px;
+}
+.note{
+  margin-top:16px;color:var(--muted);font-size:12px;line-height:1.6;text-align:center
+}
 </style>
 </head>
 <body>
 <header>
-<h1>鳥取へ — 実践日本語</h1>
-<div class="sub">교육 · 비블리오 · 문화예술 · 돗토리 현장 일본어 · 점수 없음</div>
+  <h1>鳥取へ — 実践日本語</h1>
+  <div class="subtitle">3주 · 주 5일 · 하루 한 문장씩 넘기며 공부하기<br>교육 · 행정 · 독서 · 문화예술 · N1 · 음식 · 현장 일본어</div>
 </header>
 
 <main>
-<div class="toolbar" id="cats"></div>
+  <div class="weekTabs" id="weeks"></div>
+  <div class="dayTabs" id="days"></div>
+  <div class="progress" id="progress"></div>
 
-<section class="card today" data-cat="today">
-<span class="tag">今日の15分</span>
-<h2>오늘의 실전 일본어</h2>
-<div id="daily"></div>
-<div class="note">매일 다른 표현을 복습합니다. ☆를 누르면 다시 보기에 저장됩니다.</div>
-</section>
+  <section class="card">
+    <div class="category" id="category"></div>
+    <div class="word" id="word"></div>
+    <div class="meaning" id="meaning"></div>
 
-<div id="content"></div>
+    <div class="label">例文 · 예문</div>
+    <div class="example" id="example"></div>
+    <div class="translation" id="translation"></div>
+
+    <div class="controls">
+      <button id="prev">← 이전</button>
+      <button id="fav" class="star">☆ 다시 보기</button>
+      <button id="next">다음 →</button>
+    </div>
+  </section>
+
+  <div class="jump">
+    <div class="jumpTitle">오늘 다른 문장 바로 보기</div>
+    <select id="sentenceSelect"></select>
+  </div>
+  <div class="note">점수는 없습니다. 한 문장을 충분히 읽고 「다음」을 눌러 천천히 넘어가세요.</div>
 </main>
 
-<div class="bottom">
-<button onclick="filterCat('today')">오늘</button>
-<button onclick="filterCat('edu')">교육</button>
-<button onclick="filterCat('tottori')">돗토리</button>
-<button onclick="filterCat('field')">현장</button>
-<button onclick="showFavs()">☆ 다시 보기</button>
-</div>
-
 <script>
-const entries=[
-['edu','교육·학교','教育委員会','きょういくいいんかい','교육위원회','教育委員会と学校が連携して、交流事業を進めています。'],
-['edu','교육·학교','教育課程','きょういくかてい','교육과정','学校の教育課程に文化芸術活動をどのように位置付けていますか。'],
-['edu','교육·학교','学習指導','がくしゅうしどう','학습지도','生徒の主体性を大切にした学習指導が印象的でした。'],
-['edu','교육·학교','授業改善','じゅぎょうかいぜん','수업 개선','授業改善のために、先生方はどのような協議をされていますか。'],
-['edu','교육행정','教育行政','きょういくぎょうせい','교육행정','私は江原道教育庁で文化芸術教育を担当しています。'],
+const R=(k,r)=>`<ruby>${k}<rt>${r}</rt></ruby>`;
 
-['verb','교육 동사','促す','うながす','촉진하다·유도하다','生徒同士の対話を促すことが、今回の交流の大切な目的です。'],
-['verb','교육 동사','取り組む','とりくむ','임하다·추진하다','江原道では文化芸術教育の充実に取り組んでいます。'],
-['verb','교육 동사','踏まえる','ふまえる','감안하다·토대로 하다','今回の交流で学んだことを踏まえて、今後の事業に生かしたいです。'],
+const lessons=[
+/* ───────────── 1주차 1일 ───────────── */
+[
+{c:"교육·행정",w:"教育委員会",wr:"きょういくいいんかい",m:"교육위원회",
+j:`${R("鳥取県","とっとりけん")}${R("教育委員会","きょういくいいんかい")}の${R("皆様","みなさま")}にお${R("招","まね")}きいただき、${R("心","こころ")}より${R("感謝","かんしゃ")}${R("申","もう")}し${R("上","あ")}げます。`,
+k:"돗토리현 교육위원회 여러분께서 초대해 주셔서 진심으로 감사드립니다."},
 
-['adj','형용사·형용동사','望ましい','のぞましい','바람직하다','生徒にとってどのような交流の形が望ましいか、一緒に考えたいです。'],
-['adj','형용사·형용동사','円滑な','えんかつな','원활한','円滑な交流のために、事前に日程を確認しました。'],
+{c:"교육·행정",w:"教育行政",wr:"きょういくぎょうせい",m:"교육행정",
+j:`${R("教育行政","きょういくぎょうせい")}に${R("携","たずさ")}わる${R("立場","たちば")}として、${R("今回","こんかい")}の${R("交流","こうりゅう")}から${R("多","おお")}くを${R("学","まな")}びたいと${R("思","おも")}います。`,
+k:"교육행정에 종사하는 입장에서 이번 교류를 통해 많은 것을 배우고 싶습니다."},
 
-['biblio','비블리오·독서','質疑応答','しつぎおうとう','질의응답','発表の後の質疑応答も、ビブリオバトルの大切な学びだと思います。'],
-['biblio','비블리오·독서','推薦図書','すいせんとしょ','추천도서','生徒が自分で推薦図書を選ぶ過程も大切にしています。'],
+{c:"N1 동사",w:"携わる",wr:"たずさわる",m:"종사하다·관여하다",
+j:`${R("私","わたし")}は${R("現在","げんざい")}、${R("文化芸術教育","ぶんかげいじゅつきょういく")}に${R("携","たずさ")}わっています。`,
+k:"저는 현재 문화예술교육 업무를 담당하고 있습니다."},
 
-['tottori','돗토리','鳥取県教育委員会','とっとりけんきょういくいいんかい','돗토리현교육위원회','鳥取県教育委員会の皆様にお招きいただき、心より感謝申し上げます。'],
-['tottori','돗토리','鳥取東高等学校','とっとりひがしこうとうがっこう','돗토리히가시고등학교','鳥取東高等学校で生徒同士が交流できることを楽しみにしています。'],
-['tottori','돗토리','鳥取敬愛高等学校','とっとりけいあいこうとうがっこう','돗토리게이아이 고등학교','鳥取敬愛高等学校で文化発表の機会をいただき、ありがとうございます。'],
-['tottori','돗토리','鳥取県立図書館','とっとりけんりつとしょかん','돗토리현립도서관','図書館の皆様が韓国と江原道に関心を持ってくださり、本当にありがたく思っています。'],
-['tottori','돗토리','倉吉','くらよし','구라요시','倉吉で行われるビブリオバトルをとても楽しみにしています。'],
+{c:"N1 동사",w:"踏まえる",wr:"ふまえる",m:"근거로 삼다·감안하다",
+j:`${R("今回","こんかい")}の${R("交流","こうりゅう")}で${R("学","まな")}んだことを${R("踏","ふ")}まえて、${R("今後","こんご")}の${R("事業","じぎょう")}に${R("生","い")}かしたいです。`,
+k:"이번 교류에서 배운 점을 바탕으로 앞으로의 사업에 활용하고 싶습니다."},
 
-['art','문화예술','韓国舞踊','かんこくぶよう','한국무용','江原芸術高等学校の生徒が韓国舞踊を披露します。'],
-['art','문화예술','音響設備','おんきょうせつび','음향설비','会場の音響設備について事前に確認させてください。'],
-['art','문화예술','文化芸術教育','ぶんかげいじゅつきょういく','문화예술교육','文化芸術教育を通して、生徒の感性と創造性を育てたいと考えています。'],
+{c:"현장 회화",w:"お招きいただく",wr:"おまねきいただく",m:"초대해 주시다",
+j:`${R("本日","ほんじつ")}はこのような${R("貴重","きちょう")}な${R("機会","きかい")}にお${R("招","まね")}きいただき、${R("本当","ほんとう")}にありがとうございます。`,
+k:"오늘 이렇게 귀중한 자리에 초대해 주셔서 정말 감사합니다."}
+],
 
-['field','현장 표현','お招きいただき、ありがとうございます。','おまねきいただき、ありがとうございます。','초대해 주셔서 감사합니다.','本日は私たちをお招きいただき、本当にありがとうございます。'],
-['field','현장 표현','貴重な機会','きちょうなきかい','귀중한 기회','このような貴重な交流の機会を設けていただき、心より感謝申し上げます。'],
-['field','현장 표현','弁論大会','べんろんたいかい','웅변대회','弁論大会も見学できると伺い、とても楽しみにしています。'],
-['field','현장 표현','理事会','りじかい','이사회','学校法人の理事会は、学校運営にどのように関わっていますか。'],
+/* 1주차 2일 */
+[
+{c:"학교",w:"教育課程",wr:"きょういくかてい",m:"교육과정",
+j:`${R("日本","にほん")}の${R("学校","がっこう")}では、${R("教育課程","きょういくかてい")}をどのように${R("編成","へんせい")}していますか。`,
+k:"일본 학교에서는 교육과정을 어떻게 편성하고 있습니까?"},
 
-['kishida','기시다상 표현','お言葉に甘えて','おことばにあまえて','말씀하신 호의에 기대어','お言葉に甘えて、火曜日の夕食については改めてご連絡します。'],
-['kishida','기시다상 표현','気が引ける','きがひける','마음이 쓰이다','何度もご連絡するのは少し気が引けるところです。'],
-['kishida','기시다상 표현','急がば回れ','いそがばまわれ','급할수록 돌아가라','お互い「急がば回れ」で、焦らず進めていきましょう。']
+{c:"학교",w:"授業改善",wr:"じゅぎょうかいぜん",m:"수업 개선",
+j:`${R("生徒","せいと")}の${R("主体的","しゅたいてき")}な${R("学","まな")}びにつながる${R("授業改善","じゅぎょうかいぜん")}が${R("重要","じゅうよう")}です。`,
+k:"학생의 주도적인 배움으로 이어지는 수업 개선이 중요합니다."},
+
+{c:"N1 동사",w:"促す",wr:"うながす",m:"촉진하다·재촉하다",
+j:`${R("生徒","せいと")}の${R("自発的","じはつてき")}な${R("参加","さんか")}を${R("促","うなが")}すことが${R("大切","たいせつ")}です。`,
+k:"학생의 자발적인 참여를 촉진하는 것이 중요합니다."},
+
+{c:"N1 어휘",w:"円滑",wr:"えんかつ",m:"원활함·순조로움",
+j:`${R("交流","こうりゅう")}が${R("円滑","えんかつ")}に${R("進","すす")}むよう、${R("事前","じぜん")}に${R("日程","にってい")}を${R("確認","かくにん")}しておきます。`,
+k:"교류가 원활하게 진행되도록 사전에 일정을 확인해 두겠습니다."},
+
+{c:"현장 회화",w:"差し支えない",wr:"さしつかえない",m:"지장이 없다·괜찮다",
+j:`${R("差","さ")}し${R("支","つか")}えなければ、${R("学校","がっこう")}の${R("特色","とくしょく")}について${R("教","おし")}えていただけますか。`,
+k:"괜찮으시다면 학교의 특색에 대해 알려 주시겠습니까?"}
+],
+
+/* 1주차 3일 */
+[
+{c:"비블리오·독서",w:"書評",wr:"しょひょう",m:"서평",
+j:`${R("生徒","せいと")}たちは${R("本","ほん")}の${R("魅力","みりょく")}を${R("自分","じぶん")}の${R("言葉","ことば")}で${R("伝","つた")}え、${R("書評","しょひょう")}を${R("深","ふか")}めていきます。`,
+k:"학생들은 책의 매력을 자신의 말로 전하며 서평을 심화해 갑니다."},
+
+{c:"비블리오·독서",w:"推薦図書",wr:"すいせんとしょ",m:"추천 도서",
+j:`${R("今回","こんかい")}の${R("発表","はっぴょう")}では、${R("生徒","せいと")}がそれぞれの${R("推薦図書","すいせんとしょ")}を${R("紹介","しょうかい")}します。`,
+k:"이번 발표에서는 학생들이 각자의 추천 도서를 소개합니다."},
+
+{c:"비블리오·독서",w:"質疑応答",wr:"しつぎおうとう",m:"질의응답",
+j:`${R("発表","はっぴょう")}の${R("後","あと")}に${R("質疑応答","しつぎおうとう")}の${R("時間","じかん")}を${R("設","もう")}けます。`,
+k:"발표 후에 질의응답 시간을 마련합니다."},
+
+{c:"비블리오·독서",w:"聴衆",wr:"ちょうしゅう",m:"청중",
+j:`${R("聴衆","ちょうしゅう")}との${R("対話","たいわ")}もビブリオバトルの${R("大","おお")}きな${R("魅力","みりょく")}です。`,
+k:"청중과의 대화도 비블리오배틀의 큰 매력입니다."},
+
+{c:"N1 어휘",w:"趣旨",wr:"しゅし",m:"취지",
+j:`まず、この${R("交流事業","こうりゅうじぎょう")}の${R("趣旨","しゅし")}について${R("簡単","かんたん")}にご${R("説明","せつめい")}します。`,
+k:"먼저 이 교류 사업의 취지에 대해 간단히 설명드리겠습니다."}
+],
+
+/* 1주차 4일 */
+[
+{c:"문화예술",w:"韓国舞踊",wr:"かんこくぶよう",m:"한국무용",
+j:`${R("江原芸術高等学校","カンウォンげいじゅつこうとうがっこう")}の${R("生徒","せいと")}が${R("韓国舞踊","かんこくぶよう")}を${R("披露","ひろう")}します。`,
+k:"강원예술고등학교 학생이 한국무용을 선보입니다."},
+
+{c:"문화예술",w:"振付",wr:"ふりつけ",m:"안무",
+j:`この${R("作品","さくひん")}は、${R("音楽","おんがく")}と${R("振付","ふりつけ")}の${R("調和","ちょうわ")}がとても${R("印象的","いんしょうてき")}です。`,
+k:"이 작품은 음악과 안무의 조화가 매우 인상적입니다."},
+
+{c:"문화예술",w:"音響設備",wr:"おんきょうせつび",m:"음향 설비",
+j:`${R("公演","こうえん")}の${R("前","まえ")}に${R("音響設備","おんきょうせつび")}を${R("確認","かくにん")}させていただけますか。`,
+k:"공연 전에 음향 설비를 확인해도 될까요?"},
+
+{c:"문화예술",w:"披露する",wr:"ひろうする",m:"선보이다·피로하다",
+j:`レセプションでは${R("二人","ふたり")}の${R("生徒","せいと")}が${R("短","みじか")}い${R("公演","こうえん")}を${R("披露","ひろう")}する${R("予定","よてい")}です。`,
+k:"리셉션에서는 두 학생이 짧은 공연을 선보일 예정입니다."},
+
+{c:"N1 어휘",w:"趣向",wr:"しゅこう",m:"취향·고안·색다른 구성",
+j:`${R("交流会","こうりゅうかい")}では、${R("参加者","さんかしゃ")}が${R("楽","たの")}しめるような${R("趣向","しゅこう")}が${R("凝","こ")}らされています。`,
+k:"교류회에는 참가자들이 즐길 수 있도록 여러 아이디어가 고안되어 있습니다."}
+],
+
+/* 1주차 5일 */
+[
+{c:"음식",w:"郷土料理",wr:"きょうどりょうり",m:"향토요리",
+j:`${R("鳥取","とっとり")}の${R("郷土料理","きょうどりょうり")}にはどのようなものがありますか。`,
+k:"돗토리의 향토요리에는 어떤 것이 있습니까?"},
+
+{c:"음식",w:"刺身",wr:"さしみ",m:"회·생선회",
+j:`${R("新鮮","しんせん")}な${R("魚","さかな")}のお${R("刺身","さしみ")}を${R("少","すこ")}しいただきたいです。`,
+k:"신선한 생선회를 조금 먹고 싶습니다."},
+
+{c:"음식",w:"焼き魚",wr:"やきざかな",m:"생선구이",
+j:`${R("今日","きょう")}の${R("定食","ていしょく")}には${R("焼","や")}き${R("魚","ざかな")}がついていますか。`,
+k:"오늘 정식에는 생선구이가 포함되어 있나요?"},
+
+{c:"음식",w:"出汁",wr:"だし",m:"육수·다시",
+j:`この${R("料理","りょうり")}は${R("出汁","だし")}の${R("味","あじ")}がよく${R("効","き")}いていますね。`,
+k:"이 요리는 육수 맛이 아주 잘 살아 있네요."},
+
+{c:"식당 회화",w:"お任せ",wr:"おまかせ",m:"맡김·추천대로",
+j:`${R("料理","りょうり")}はお${R("任","まか")}せでお${R("願","ねが")}いします。おすすめを${R("食","た")}べてみたいです。`,
+k:"요리는 추천해 주시는 대로 부탁드립니다. 추천 음식을 먹어 보고 싶습니다."}
+],
+
+/* ───────────── 2주차 1일 ───────────── */
+[
+{c:"N1",w:"取り組む",wr:"とりくむ",m:"임하다·추진하다",
+j:`${R("江原","カンウォン")}では${R("文化芸術教育","ぶんかげいじゅつきょういく")}の${R("充実","じゅうじつ")}に${R("取","と")}り${R("組","く")}んでいます。`,
+k:"강원에서는 문화예술교육의 내실화에 힘쓰고 있습니다."},
+
+{c:"N1",w:"充実",wr:"じゅうじつ",m:"충실·내실화",
+j:`${R("学校","がっこう")}の${R("文化芸術活動","ぶんかげいじゅつかつどう")}をさらに${R("充実","じゅうじつ")}させたいと${R("考","かんが")}えています。`,
+k:"학교의 문화예술 활동을 더욱 내실화하고 싶다고 생각합니다."},
+
+{c:"N1",w:"見据える",wr:"みすえる",m:"내다보다·주시하다",
+j:`${R("将来","しょうらい")}を${R("見据","みす")}えながら、${R("持続可能","じぞくかのう")}な${R("交流","こうりゅう")}を${R("続","つづ")}けたいです。`,
+k:"미래를 내다보면서 지속 가능한 교류를 이어가고 싶습니다."},
+
+{c:"N1",w:"見直す",wr:"みなおす",m:"재검토하다",
+j:`${R("事業","じぎょう")}の${R("成果","せいか")}を${R("検証","けんしょう")}し、${R("必要","ひつよう")}に${R("応","おう")}じて${R("内容","ないよう")}を${R("見直","みなお")}します。`,
+k:"사업의 성과를 검증하고 필요에 따라 내용을 재검토합니다."},
+
+{c:"행정",w:"連携",wr:"れんけい",m:"연계·협력",
+j:`${R("学校","がっこう")}と${R("教育行政","きょういくぎょうせい")}が${R("連携","れんけい")}することが${R("重要","じゅうよう")}だと${R("考","かんが")}えています。`,
+k:"학교와 교육행정이 연계하는 것이 중요하다고 생각합니다."}
+],
+
+/* 2주차 2일 */
+[
+{c:"N1",w:"円滑に",wr:"えんかつに",m:"원활하게",
+j:`${R("皆様","みなさま")}のおかげで${R("日程","にってい")}を${R("円滑","えんかつ")}に${R("進","すす")}めることができました。`,
+k:"여러분 덕분에 일정을 원활하게 진행할 수 있었습니다."},
+
+{c:"N1",w:"あらかじめ",wr:"あらかじめ",m:"미리·사전에",
+j:`${R("必要","ひつよう")}な${R("資料","しりょう")}があれば、あらかじめ${R("準備","じゅんび")}しておきます。`,
+k:"필요한 자료가 있다면 미리 준비해 두겠습니다."},
+
+{c:"N1",w:"差し迫る",wr:"さしせまる",m:"임박하다",
+j:`${R("出発日","しゅっぱつび")}が${R("差","さ")}し${R("迫","せま")}ってきましたので、${R("最終日程","さいしゅうにってい")}を${R("確認","かくにん")}します。`,
+k:"출발일이 임박했으므로 최종 일정을 확인하겠습니다."},
+
+{c:"N1",w:"滞りなく",wr:"とどこおりなく",m:"막힘없이·차질 없이",
+j:`${R("行事","ぎょうじ")}が${R("滞","とどこお")}りなく${R("終了","しゅうりょう")}し、${R("安心","あんしん")}しました。`,
+k:"행사가 차질 없이 끝나 안심했습니다."},
+
+{c:"행정",w:"調整",wr:"ちょうせい",m:"조정",
+j:`${R("関係機関","かんけいきかん")}と${R("日程","にってい")}を${R("調整","ちょうせい")}してから、${R("改","あらた")}めてご${R("連絡","れんらく")}します。`,
+k:"관계 기관과 일정을 조정한 뒤 다시 연락드리겠습니다."}
+],
+
+/* 2주차 3일 */
+[
+{c:"학교",w:"学校運営",wr:"がっこううんえい",m:"학교 운영",
+j:`${R("理事会","りじかい")}は${R("学校運営","がっこううんえい")}にどのように${R("関","かか")}わっていますか。`,
+k:"이사회는 학교 운영에 어떻게 관여하고 있습니까?"},
+
+{c:"학교",w:"進路指導",wr:"しんろしどう",m:"진로지도",
+j:`${R("生徒","せいと")}の${R("希望","きぼう")}に${R("応","おう")}じた${R("進路指導","しんろしどう")}について${R("伺","うかが")}いたいです。`,
+k:"학생의 희망에 따른 진로지도에 대해 여쭙고 싶습니다."},
+
+{c:"학교",w:"学校行事",wr:"がっこうぎょうじ",m:"학교 행사",
+j:`${R("文化祭","ぶんかさい")}などの${R("学校行事","がっこうぎょうじ")}には、${R("地域","ちいき")}の${R("方","かた")}も${R("参加","さんか")}しますか。`,
+k:"문화제 같은 학교 행사에는 지역 주민도 참여합니까?"},
+
+{c:"N1",w:"望ましい",wr:"のぞましい",m:"바람직하다",
+j:`${R("生徒","せいと")}が${R("互","たが")}いに${R("学","まな")}び${R("合","あ")}える${R("環境","かんきょう")}が${R("望","のぞ")}ましいと${R("思","おも")}います。`,
+k:"학생들이 서로 배울 수 있는 환경이 바람직하다고 생각합니다."},
+
+{c:"N1",w:"尊重",wr:"そんちょう",m:"존중",
+j:`お${R("互","たが")}いの${R("文化","ぶんか")}や${R("考","かんが")}え${R("方","かた")}を${R("尊重","そんちょう")}することが${R("交流","こうりゅう")}の${R("第一歩","だいいっぽ")}です。`,
+k:"서로의 문화와 사고방식을 존중하는 것이 교류의 첫걸음입니다."}
+],
+
+/* 2주차 4일 */
+[
+{c:"돗토리",w:"鳥取砂丘",wr:"とっとりさきゅう",m:"돗토리 사구",
+j:`${R("鳥取砂丘","とっとりさきゅう")}を${R("訪","おとず")}れるのをとても${R("楽","たの")}しみにしています。`,
+k:"돗토리 사구를 방문하는 것을 매우 기대하고 있습니다."},
+
+{c:"돗토리",w:"鳥取県立図書館",wr:"とっとりけんりつとしょかん",m:"돗토리현립도서관",
+j:`${R("鳥取県立図書館","とっとりけんりつとしょかん")}の${R("読書活動","どくしょかつどう")}について${R("詳","くわ")}しく${R("伺","うかが")}いたいです。`,
+k:"돗토리현립도서관의 독서 활동에 대해 자세히 듣고 싶습니다."},
+
+{c:"돗토리",w:"倉吉",wr:"くらよし",m:"구라요시",
+j:`${R("倉吉","くらよし")}では${R("生徒","せいと")}たちのビブリオバトルと${R("交流活動","こうりゅうかつどう")}が${R("予定","よてい")}されています。`,
+k:"구라요시에서는 학생들의 비블리오배틀과 교류 활동이 예정되어 있습니다."},
+
+{c:"현장",w:"道に迷う",wr:"みちにまよう",m:"길을 잃다",
+j:`すみません。${R("鳥取駅","とっとりえき")}へ${R("行","い")}く${R("途中","とちゅう")}で${R("道","みち")}に${R("迷","まよ")}ってしまいました。`,
+k:"실례합니다. 돗토리역으로 가는 도중 길을 잃었습니다."},
+
+{c:"현장",w:"所要時間",wr:"しょようじかん",m:"소요 시간",
+j:`ここから${R("鳥取駅","とっとりえき")}までの${R("所要時間","しょようじかん")}はどのくらいですか。`,
+k:"여기서 돗토리역까지 소요 시간은 어느 정도입니까?"}
+],
+
+/* 2주차 5일 */
+[
+{c:"음식",w:"蟹",wr:"かに",m:"게",
+j:`${R("鳥取","とっとり")}では${R("蟹","かに")}が${R("有名","ゆうめい")}だと${R("聞","き")}きました。`,
+k:"돗토리에서는 게가 유명하다고 들었습니다."},
+
+{c:"음식",w:"梨",wr:"なし",m:"배",
+j:`${R("鳥取","とっとり")}の${R("梨","なし")}は${R("甘","あま")}くておいしいですね。`,
+k:"돗토리 배는 달고 맛있네요."},
+
+{c:"음식",w:"炊き込みご飯",wr:"たきこみごはん",m:"일본식 영양밥·솥밥",
+j:`この${R("炊","た")}き${R("込","こ")}みご${R("飯","はん")}には${R("何","なに")}が${R("入","はい")}っていますか。`,
+k:"이 일본식 솥밥에는 무엇이 들어 있습니까?"},
+
+{c:"음식",w:"茶碗蒸し",wr:"ちゃわんむし",m:"일본식 계란찜",
+j:`${R("茶碗蒸","ちゃわんむ")}しは${R("熱","あつ")}いうちに${R("食","た")}べたほうがおいしいですね。`,
+k:"차완무시는 따뜻할 때 먹는 편이 맛있네요."},
+
+{c:"식당",w:"会計",wr:"かいけい",m:"계산",
+j:`すみません。お${R("会計","かいけい")}をお${R("願","ねが")}いします。`,
+k:"실례합니다. 계산 부탁드립니다."}
+],
+
+/* ───────────── 3주차 1일 ───────────── */
+[
+{c:"N1",w:"遂行する",wr:"すいこうする",m:"수행하다",
+j:`${R("関係者","かんけいしゃ")}と${R("協力","きょうりょく")}しながら${R("事業","じぎょう")}を${R("着実","ちゃくじつ")}に${R("遂行","すいこう")}します。`,
+k:"관계자들과 협력하면서 사업을 착실하게 수행합니다."},
+
+{c:"N1",w:"鑑みる",wr:"かんがみる",m:"감안하다·비추어 생각하다",
+j:`${R("現場","げんば")}の${R("状況","じょうきょう")}に${R("鑑","かんが"}みて、${R("実施方法","じっしほうほう")}を${R("検討","けんとう")}する${R("必要","ひつよう")}があります。`,
+k:"현장 상황을 감안하여 실시 방법을 검토할 필요가 있습니다."},
+
+{c:"N1",w:"伴う",wr:"ともなう",m:"수반하다",
+j:`${R("制度","せいど")}の${R("変更","へんこう")}に${R("伴","ともな")}い、${R("運用方法","うんようほうほう")}も${R("変","か")}わりました。`,
+k:"제도 변경에 따라 운영 방법도 바뀌었습니다."},
+
+{c:"N1",w:"講じる",wr:"こうじる",m:"강구하다·조치를 취하다",
+j:`${R("安全","あんぜん")}を${R("確保","かくほ")}するため、${R("必要","ひつよう")}な${R("対策","たいさく")}を${R("講","こう")}じます。`,
+k:"안전을 확보하기 위해 필요한 대책을 강구합니다."},
+
+{c:"N1",w:"見込む",wr:"みこむ",m:"예상하다·전망하다",
+j:`${R("来年度","らいねんど")}は${R("参加者","さんかしゃ")}がさらに${R("増","ふ")}えると${R("見込","みこ")}んでいます。`,
+k:"내년도에는 참가자가 더욱 늘어날 것으로 예상하고 있습니다."}
+],
+
+/* 3주차 2일 */
+[
+{c:"N1 한자",w:"懸念",wr:"けねん",m:"우려",
+j:`${R("安全管理","あんぜんかんり")}についていくつか${R("懸念","けねん")}がありますので、${R("事前","じぜん")}に${R("確認","かくにん")}したいです。`,
+k:"안전 관리에 몇 가지 우려가 있어 사전에 확인하고 싶습니다."},
+
+{c:"N1 한자",w:"措置",wr:"そち",m:"조치",
+j:`${R("必要","ひつよう")}に${R("応","おう")}じて${R("適切","てきせつ")}な${R("措置","そち")}を${R("取","と")}ることが${R("重要","じゅうよう")}です。`,
+k:"필요에 따라 적절한 조치를 취하는 것이 중요합니다."},
+
+{c:"N1 한자",w:"経緯",wr:"けいい",m:"경위·과정",
+j:`まず、この${R("事業","じぎょう")}が${R("始","はじ")}まった${R("経緯","けいい")}をご${R("説明","せつめい")}します。`,
+k:"먼저 이 사업이 시작된 경위를 설명드리겠습니다."},
+
+{c:"N1 한자",w:"趣旨",wr:"しゅし",m:"취지",
+j:`${R("事業","じぎょう")}の${R("趣旨","しゅし")}をご${R("理解","りかい")}いただき、ありがとうございます。`,
+k:"사업의 취지를 이해해 주셔서 감사합니다."},
+
+{c:"N1 한자",w:"配慮",wr:"はいりょ",m:"배려·고려",
+j:`${R("生徒","せいと")}の${R("安全","あんぜん")}と${R("体調","たいちょう")}に${R("十分","じゅうぶん")}なご${R("配慮","はいりょ")}をいただき、ありがとうございます。`,
+k:"학생들의 안전과 건강 상태를 충분히 배려해 주셔서 감사합니다."}
+],
+
+/* 3주차 3일 */
+[
+{c:"교류",w:"相互理解",wr:"そうごりかい",m:"상호 이해",
+j:`この${R("交流","こうりゅう")}が${R("両地域","りょうちいき")}の${R("相互理解","そうごりかい")}を${R("深","ふか")}める${R("機会","きかい")}になればと${R("願","ねが")}っています。`,
+k:"이 교류가 두 지역의 상호 이해를 깊게 하는 기회가 되기를 바랍니다."},
+
+{c:"교류",w:"意義深い",wr:"いぎぶかい",m:"의의가 깊다",
+j:`${R("生徒","せいと")}たちにとって、とても${R("意義深","いぎぶか")}い${R("経験","けいけん")}になると${R("思","おも")}います。`,
+k:"학생들에게 매우 뜻깊은 경험이 될 것이라고 생각합니다."},
+
+{c:"교류",w:"交流を深める",wr:"こうりゅうをふかめる",m:"교류를 심화하다",
+j:`これからも${R("鳥取","とっとり")}と${R("江原","カンウォン")}の${R("交流","こうりゅう")}をさらに${R("深","ふか")}めていきたいです。`,
+k:"앞으로도 돗토리와 강원의 교류를 더욱 깊게 이어가고 싶습니다."},
+
+{c:"현장",w:"お言葉に甘えて",wr:"おことばにあまえて",m:"말씀에 기대어·호의를 받아들여",
+j:`では、お${R("言葉","ことば")}に${R("甘","あま")}えて、ご${R("一緒","いっしょ")}させていただきます。`,
+k:"그럼 말씀에 기대어 함께하도록 하겠습니다."},
+
+{c:"현장",w:"気が引ける",wr:"きがひける",m:"마음이 쓰이다·부담스럽다",
+j:`そこまでしていただくのは${R("少","すこ")}し${R("気","き")}が${R("引","ひ")}けます。`,
+k:"그렇게까지 해 주시는 것은 조금 마음이 쓰입니다."}
+],
+
+/* 3주차 4일 */
+[
+{c:"현장",w:"急がば回れ",wr:"いそがばまわれ",m:"급할수록 돌아가라",
+j:`「${R("急","いそ")}がば${R("回","まわ")}れ」という${R("言葉","ことば")}のように、${R("丁寧","ていねい")}に${R("準備","じゅんび")}することが${R("大切","たいせつ")}ですね。`,
+k:"‘급할수록 돌아가라’는 말처럼 꼼꼼하게 준비하는 것이 중요하네요."},
+
+{c:"현장",w:"心強い",wr:"こころづよい",m:"마음 든든하다",
+j:`${R("岸田","きしだ")}さんがいてくださるので、とても${R("心強","こころづよ")}いです。`,
+k:"기시다 씨가 계셔서 정말 든든합니다."},
+
+{c:"현장",w:"助かります",wr:"たすかります",m:"도움이 됩니다·고맙습니다",
+j:`そこまで${R("準備","じゅんび")}していただけると、とても${R("助","たす")}かります。`,
+k:"그렇게까지 준비해 주시면 정말 큰 도움이 됩니다."},
+
+{c:"현장",w:"楽しみにしています",wr:"たのしみにしています",m:"기대하고 있습니다",
+j:`${R("十一月","じゅういちがつ")}に${R("皆様","みなさま")}とお${R("会","あ")}いできることを${R("心","こころ")}から${R("楽","たの")}しみにしています。`,
+k:"11월에 여러분을 뵐 수 있기를 진심으로 기대하고 있습니다."},
+
+{c:"현장",w:"お気遣い",wr:"おきづかい",m:"배려·염려",
+j:`いつも${R("細","こま")}やかなお${R("気遣","きづか")}いをいただき、ありがとうございます。`,
+k:"항상 세심하게 배려해 주셔서 감사합니다."}
+],
+
+/* 3주차 5일 */
+[
+{c:"종합",w:"貴重な機会",wr:"きちょうなきかい",m:"귀중한 기회",
+j:`このような${R("貴重","きちょう")}な${R("交流","こうりゅう")}の${R("機会","きかい")}を${R("設","もう")}けていただき、${R("心","こころ")}より${R("感謝","かんしゃ")}${R("申","もう")}し${R("上","あ")}げます。`,
+k:"이처럼 귀중한 교류의 기회를 마련해 주셔서 진심으로 감사드립니다."},
+
+{c:"종합",w:"末永く",wr:"すえながく",m:"오래도록·영원히",
+j:`このご${R("縁","えん")}を${R("大切","たいせつ")}にし、${R("末永","すえなが")}く${R("交流","こうりゅう")}を${R("続","つづ")}けていければと${R("思","おも")}います。`,
+k:"이 인연을 소중히 여기며 오래도록 교류를 이어갈 수 있기를 바랍니다."},
+
+{c:"종합",w:"実りある",wr:"みのりある",m:"성과 있는·알찬",
+j:`${R("今回","こんかい")}の${R("訪問","ほうもん")}が${R("双方","そうほう")}にとって${R("実","みの")}りある${R("交流","こうりゅう")}になることを${R("願","ねが")}っています。`,
+k:"이번 방문이 양측 모두에게 알찬 교류가 되기를 바랍니다."},
+
+{c:"종합",w:"今後とも",wr:"こんごとも",m:"앞으로도 계속",
+j:`${R("今後","こんご")}ともどうぞよろしくお${R("願","ねが")}いいたします。`,
+k:"앞으로도 잘 부탁드립니다."},
+
+{c:"종합",w:"心より感謝申し上げます",wr:"こころよりかんしゃもうしあげます",m:"진심으로 감사드립니다",
+j:`${R("今回","こんかい")}の${R("訪問","ほうもん")}のためにご${R("尽力","じんりょく")}いただいた${R("皆様","みなさま")}に、${R("心","こころ")}より${R("感謝","かんしゃ")}${R("申","もう")}し${R("上","あ")}げます。`,
+k:"이번 방문을 위해 애써 주신 모든 분께 진심으로 감사드립니다."}
+]
 ];
 
-const catNames={
-today:'오늘',
-edu:'교육·학교',
-verb:'동사',
-adj:'형용사',
-biblio:'비블리오',
-tottori:'돗토리',
-art:'문화예술',
-field:'현장 표현',
-kishida:'기시다상 표현'
+let week=0,day=0,pos=0;
+let favorites=JSON.parse(localStorage.getItem("tottoriFav")||"[]");
+
+const $=id=>document.getElementById(id);
+
+function rubyWord(text,reading){
+  return `<ruby>${text}<rt>${reading}</rt></ruby>`;
+}
+
+function buildTabs(){
+  $("weeks").innerHTML="";
+  for(let w=0;w<3;w++){
+    let b=document.createElement("button");
+    b.textContent=`${w+1}주차`;
+    b.className=w===week?"active":"";
+    b.onclick=()=>{week=w;day=0;pos=0;buildTabs();render()};
+    $("weeks").appendChild(b);
+  }
+
+  $("days").innerHTML="";
+  for(let d=0;d<5;d++){
+    let b=document.createElement("button");
+    b.textContent=`${d+1}일`;
+    b.className=d===day?"active":"";
+    b.onclick=()=>{day=d;pos=0;buildTabs();render()};
+    $("days").appendChild(b);
+  }
+}
+
+function globalIndex(){
+  return week*25+day*5+pos;
+}
+
+function render(){
+  const set=lessons[week*5+day];
+  const x=set[pos];
+
+  $("category").textContent=x.c;
+  $("word").innerHTML=rubyWord(x.w,x.wr);
+  $("meaning").textContent=x.m;
+  $("example").innerHTML=x.j;
+  $("translation").textContent=x.k;
+  $("progress").textContent=`${week+1}주차 · ${day+1}일차 · 문장 ${pos+1} / ${set.length}`;
+
+  const gi=globalIndex();
+  $("fav").textContent=favorites.includes(gi)?"★ 다시 보기":"☆ 다시 보기";
+
+  $("sentenceSelect").innerHTML="";
+  set.forEach((q,i)=>{
+    let o=document.createElement("option");
+    o.value=i;
+    o.textContent=`문장 ${i+1} · ${q.w}`;
+    if(i===pos)o.selected=true;
+    $("sentenceSelect").appendChild(o);
+  });
+
+  $("prev").disabled=(week===0&&day===0&&pos===0);
+  $("next").textContent=(week===2&&day===4&&pos===set.length-1)?"처음으로 ↺":"다음 →";
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+function moveNext(){
+  const set=lessons[week*5+day];
+  if(pos<set.length-1){pos++}
+  else if(day<4){day++;pos=0}
+  else if(week<2){week++;day=0;pos=0}
+  else{week=0;day=0;pos=0}
+  buildTabs();render();
+}
+
+function movePrev(){
+  if(pos>0){pos--}
+  else if(day>0){day--;pos=lessons[week*5+day].length-1}
+  else if(week>0){week--;day=4;pos=lessons[week*5+day].length-1}
+  buildTabs();render();
+}
+
+$("next").onclick=moveNext;
+$("prev").onclick=movePrev;
+
+$("fav").onclick=()=>{
+  const gi=globalIndex();
+  if(favorites.includes(gi)) favorites=favorites.filter(v=>v!==gi);
+  else favorites.push(gi);
+  localStorage.setItem("tottoriFav",JSON.stringify(favorites));
+  render();
 };
 
-function rw(t,r){
-return '<ruby>'+t+'<rt>'+r+'</rt></ruby>';
-}
+$("sentenceSelect").onchange=e=>{
+  pos=Number(e.target.value);render();
+};
 
-function card(e,i){
-return `<section class="card entry" data-cat="${e[0]}" data-id="${i}">
-<span class="tag">${e[1]}</span>
-<div class="item">
-<div class="term">${rw(e[2],e[3])}</div>
-<div class="meaning">${e[4]}</div>
-<div class="example">${e[5]}</div>
-<div class="actions"><button class="star" onclick="toggleFav(${i})">☆ 다시 보기</button></div>
-</div></section>`;
-}
-
-document.getElementById('content').innerHTML=entries.map(card).join('');
-
-document.getElementById('cats').innerHTML=
-`<button onclick="showAll(this)">전체</button>`+
-Object.entries(catNames).map(([k,v])=>`<button onclick="filterCat('${k}',this)">${v}</button>`).join('')+
-`<button onclick="showFavs(this)">☆ 다시 보기</button>
-<button onclick="toggleRuby(this)">후리가나 ON</button>`;
-
-let rubyOn=true;
-
-function toggleRuby(btn){
-rubyOn=!rubyOn;
-document.body.classList.toggle('no-ruby',!rubyOn);
-btn.textContent='후리가나 '+(rubyOn?'ON':'OFF');
-}
-
-function showAll(btn){
-document.querySelector('.today').classList.remove('hidden');
-document.querySelectorAll('.entry').forEach(x=>x.classList.remove('hidden'));
-active(btn);
-}
-
-function filterCat(cat,btn){
-document.querySelectorAll('.entry').forEach(x=>{
-x.classList.toggle('hidden',x.dataset.cat!==cat);
-});
-document.querySelector('.today').classList.toggle('hidden',cat!=='today');
-active(btn);
-window.scrollTo(0,0);
-}
-
-function active(btn){
-document.querySelectorAll('#cats button').forEach(b=>b.classList.remove('active'));
-if(btn)btn.classList.add('active');
-}
-
-function getFavs(){
-return JSON.parse(localStorage.getItem('tottoriFavs')||'[]');
-}
-
-function toggleFav(i){
-let f=getFavs();
-f=f.includes(i)?f.filter(x=>x!==i):[...f,i];
-localStorage.setItem('tottoriFavs',JSON.stringify(f));
-syncStars();
-}
-
-function syncStars(){
-let f=getFavs();
-document.querySelectorAll('.entry').forEach(x=>{
-let on=f.includes(+x.dataset.id);
-let b=x.querySelector('.star');
-b.classList.toggle('on',on);
-b.textContent=on?'★ 저장됨':'☆ 다시 보기';
-});
-}
-
-function showFavs(btn){
-let f=getFavs();
-document.querySelector('.today').classList.add('hidden');
-document.querySelectorAll('.entry').forEach(x=>{
-x.classList.toggle('hidden',!f.includes(+x.dataset.id));
-});
-active(btn);
-window.scrollTo(0,0);
-}
-
-function daily(){
-let d=Math.floor(Date.now()/86400000);
-let ids=[];
-for(let i=0;i<6;i++) ids.push((d*7+i*11)%entries.length);
-
-document.getElementById('daily').innerHTML=
-ids.map(i=>{
-let e=entries[i];
-return `<div class="item">
-<div class="term">${rw(e[2],e[3])}</div>
-<div class="meaning">${e[4]}</div>
-<div class="example">${e[5]}</div>
-</div>`;
-}).join('');
-}
-
-daily();
-syncStars();
-filterCat('today');
+buildTabs();
+render();
 </script>
 </body>
 </html>
